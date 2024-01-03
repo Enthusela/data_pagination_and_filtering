@@ -11,7 +11,7 @@ For assistance:
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
 
-const itemsPerPage = 20;
+const itemsPerPage = 9;
 
 /*
 Create the `showPage` function
@@ -98,6 +98,7 @@ function addPagination(list) {
 }
 
 function addSearch(list) {
+   // Append search bar to page header
    const searchHTML = `
       <label for="search" class="student-search">
          <span>Search by name</span>
@@ -107,16 +108,13 @@ function addSearch(list) {
    `
    const header = document.querySelector('.header');
    header.insertAdjacentHTML('beforeend', searchHTML);
-
-   // Add event listener to dynamically search the students based on search bar input
-   const search = document.querySelector('.student-search');
    
-   function filterSearch() {
-      
-   }
+   // Store searchLabel as variable for later navigation
+   const searchLabel = header.querySelector('.student-search');
 
-   search.addEventListener('keyup', (e) => {
-      userInput = e.target.value.toLowerCase();
+   // Add funcion to dynamically search the students based on search bar input
+   function filterStudents() {
+      const userInput = document.querySelector('#search').value.toLowerCase();
       console.log(userInput);
       let newData = [];
       // Add students with matching names to the new list of students
@@ -139,7 +137,15 @@ function addSearch(list) {
          document.querySelector('.student-list').innerHTML = `<h2>No results found.</h2>`;
          document.querySelector('.link-list').innerHTML = '';
       }
-   });
+   }
+   // Add event handler to automatically filter as the user types
+   const searchBar = searchLabel.querySelector('#search');
+   searchBar.addEventListener('keyup', filterStudents);
+   
+   // Add event handler or manual search button, for if copy-pasting text fails to trigger the search
+   const searchButton = searchLabel.querySelector('button');
+   searchButton.addEventListener('click', filterStudents);
+   
 }
 
 // Call functions
